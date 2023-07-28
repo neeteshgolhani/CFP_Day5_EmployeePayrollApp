@@ -1,14 +1,11 @@
 package com.bridgelabz.employeepayrollapp.Model;
-
 import com.bridgelabz.employeepayrollapp.DTO.EmployeeDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -16,6 +13,7 @@ import java.util.List;
 public @Data class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private long id;
     private String fName;
     private String lName;
@@ -25,15 +23,18 @@ public @Data class Employee {
     private double salary;
     private String gender;
     private String profilePic;
-    private LocalDate startDate;
-    private List<String> department;
-    private String notes;
+    @Column(name="Joined_Date")
 
+    private LocalDate startDate;
+    private String notes;
+    @ElementCollection
+    @CollectionTable(name = "employee_dep", joinColumns = @JoinColumn(name = "employee_id"))
+    @Column(name = "department")
+    private List<String> department;
     public Employee(EmployeeDTO employeeDTO) {
 
         this.updateEmployee(employeeDTO);
     }
-
     public void updateEmployee(EmployeeDTO employeeDTO) {
         this.fName = employeeDTO.fName;
         this.lName = employeeDTO.lName;
@@ -44,9 +45,10 @@ public @Data class Employee {
         this.gender = employeeDTO.gender;
         this.profilePic = employeeDTO.profilePic;
         this.startDate = employeeDTO.startDate;
-        this.department = employeeDTO.department;
         this.notes = employeeDTO.notes;
+        this.department=employeeDTO.department;
     }
+
 }
 
 

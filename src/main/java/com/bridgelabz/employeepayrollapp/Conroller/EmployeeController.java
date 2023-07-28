@@ -2,7 +2,6 @@ package com.bridgelabz.employeepayrollapp.Conroller;
 import com.bridgelabz.employeepayrollapp.DTO.EmployeeDTO;
 import com.bridgelabz.employeepayrollapp.DTO.ResponseDTO;
 import com.bridgelabz.employeepayrollapp.Model.Employee;
-import com.bridgelabz.employeepayrollapp.Repository.EmployeeRepo;
 import com.bridgelabz.employeepayrollapp.Service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -52,5 +51,11 @@ public class EmployeeController {
             ResponseDTO responseDTO = new ResponseDTO("Employee Data Not Found", id);
             return new ResponseEntity<>(responseDTO, HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/department/{department}")
+    public ResponseEntity<ResponseDTO>getElementByDepartment(@PathVariable String department){
+        List<Employee>employeeList = employeeService.getEmployeeByDepartment(department);
+        ResponseDTO responseDTO = new ResponseDTO("Get call for Department successfull",employeeList);
+        return  new ResponseEntity<ResponseDTO>(responseDTO,HttpStatus.OK);
     }
 }
